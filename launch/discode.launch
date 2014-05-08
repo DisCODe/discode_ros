@@ -1,0 +1,21 @@
+<launch>
+  <!-- The node name for the deployer -->
+  <arg name="NAME" default="$(anon discode)"/>
+  <!-- DisCODe log level (0-8) -->
+  <arg name="LOG_LEVEL" default="3"/>
+  <!-- Additional DisCODe args -->
+  <arg name="DISCODE_ARGS" default=""/>
+  <!-- Task file to spawn -->
+  <arg name="DISCODE_TASK" default=""/>
+  <!-- Path to look for dynamically-loaded libraries and components (something like /home/[user]/DCL) -->
+  <arg name="DISCODE_DCL_DIR" default="$(env DISCODE_DCL_DIR)"/>
+
+  <!-- Launch deployer -->
+  <node 
+    name="$(arg NAME)"
+    pkg="discode_ros" type="discode" 
+    args="-L$(arg LOG_LEVEL) -T$(arg DISCODE_TASK) $(arg DISCODE_ARGS) --"
+    output="screen">
+    <env name="DISCODE_DCL_DIR" value="$(arg DISCODE_DCL_DIR)"/>
+  </node>
+</launch>

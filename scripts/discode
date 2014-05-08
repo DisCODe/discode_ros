@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Wrapper script 
+
+echo "Running DisCODe with parameters: [$@]"
+discode "$@"
