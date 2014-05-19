@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  std_srvs
   DisCODe
 )
 
@@ -105,7 +106,7 @@ include_directories(
 
 ## Declare a cpp executable
 # add_executable(discode_integration_node src/discode_integration_node.cpp)
-add_executable(SimpleClient src/SimpleClient.cpp)
+add_executable(discode_task_switcher src/discode_task_switcher.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -115,7 +116,7 @@ add_executable(SimpleClient src/SimpleClient.cpp)
 # target_link_libraries(discode_integration_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(SimpleClient Network)
+target_link_libraries(discode_task_switcher Network ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -138,7 +139,7 @@ install(PROGRAMS
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
-install(TARGETS SimpleClient
+install(TARGETS discode_task_switcher
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
