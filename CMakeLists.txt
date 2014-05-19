@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  DisCODe
 )
 
 ## System dependencies are found with CMake's conventions
@@ -104,6 +105,7 @@ include_directories(
 
 ## Declare a cpp executable
 # add_executable(discode_integration_node src/discode_integration_node.cpp)
+add_executable(SimpleClient src/SimpleClient.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -113,6 +115,7 @@ include_directories(
 # target_link_libraries(discode_integration_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(SimpleClient Network)
 
 #############
 ## Install ##
@@ -134,6 +137,12 @@ install(PROGRAMS
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
+
+install(TARGETS SimpleClient
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/
