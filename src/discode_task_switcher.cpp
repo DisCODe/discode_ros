@@ -13,8 +13,8 @@ class DisCODeTaskSwitcher {
 public:
 	bool init(const std::string & host = "localhost", const std::string & port = "30000") {
 		m_client.setServiceHook(boost::bind(&DisCODeTaskSwitcher::service, this, _1, _2));
-        	m_client.setCompletionHook(boost::bind(&DisCODeTaskSwitcher::check, this, _1, _2));
-	        m_client.connect(host, port);
+		m_client.setCompletionHook(boost::bind(&DisCODeTaskSwitcher::check, this, _1, _2));
+		return m_client.connect(host, port);
 	}
 
 	bool sendMessage(const std::string & msg) {
@@ -46,10 +46,10 @@ public:
 	}
 
 	bool stopSubtask(const std::string & subtask, std_srvs::Empty::Request &req, std_srvs::Empty::Response &res) {
-                std::string msg = "stopSubtask:" + subtask;
-                sendMessage(msg);
-                return true;
-        }
+		std::string msg = "stopSubtask:" + subtask;
+		sendMessage(msg);
+		return true;
+	}
 
 
 private:
@@ -73,10 +73,12 @@ int main(int argc, char* argv[])
 	ros::NodeHandle n;
 
 	
+	ros::Duration(3).sleep(); // sleep for a while
 
 	DisCODeTaskSwitcher sw;
-	if (!sw.init()) {
-		return -1;
+	while (!sw.init()) {
+		ROS_ERROR("Connecting to DisCODe failed. Waiting 3 seconds before retry...");
+		ros::Duration(3).sleep(); // sleep for a while
 	}
 
 	std::vector<ros::ServiceServer> srvs;
