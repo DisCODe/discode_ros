@@ -67,6 +67,11 @@ private:
 	}
 };
 
+struct ServiceSet {
+	ros::ServiceServer srv_start;
+	ros::ServiceServer srv_stop;
+};
+
 int main(int argc, char* argv[])
 {
 	ros::init(argc, argv, "discode_task_switcher");
@@ -81,14 +86,16 @@ int main(int argc, char* argv[])
 		ros::Duration(3).sleep(); // sleep for a while
 	}
 
-	std::vector<ros::ServiceServer> srvs;
+	std::map<std::string, ServiceSet> srvs;
 
 	std::vector<std::string> subtasks = sw.listSubtasks();
 	for (int i = 0; i < subtasks.size(); ++i) {
+		ServiceSet s;
 		if (subtasks[i] == "") continue;
 		std::cout << i << ": " << subtasks[i] << std::endl;
-		srvs.push_back(n.advertiseService<std_srvs::Empty::Request, std_srvs::Empty::Response>(subtasks[i]+"/start", boost::bind(&DisCODeTaskSwitcher::startSubtask, &sw, subtasks[i], _1, _2)));
-		srvs.push_back(n.advertiseService<std_srvs::Empty::Request, std_srvs::Empty::Response>(subtasks[i]+"/stop", boost::bind(&DisCODeTaskSwitcher::stopSubtask, &sw, subtasks[i], _1, _2)));
+		s.srv_start = n.advertiseService<std_srvs::Empty::Request, std_srvs::Empty::Response>(subtasks[i]+"/start", boost::bind(&DisCODeTaskSwitcher::startSubtask, &sw, subtasks[i], _1, _2));
+		s.srv_stop = n.advertiseService<std_srvs::Empty::Request, std_srvs::Empty::Response>(subtasks[i]+"/stop", boost::bind(&DisCODeTaskSwitcher::stopSubtask, &sw, subtasks[i], _1, _2));
+		srvs[subtasks[i]] = s;
 	}
 
 	ros::spin();
