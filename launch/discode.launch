@@ -6,7 +6,7 @@
 	<!-- Additional DisCODe args -->
 	<arg name="DISCODE_ARGS" default=""/>
 	<!-- Task file to spawn -->
-	<arg name="DISCODE_TASK" default="CvBasic:SequenceViewer"/>
+	<arg name="DISCODE_TASK" default="CvBasic:MultipleSequenceViewer"/>
 	<!-- Path to look for dynamically-loaded libraries and components (something like /home/[user]/DCL) -->
 	<arg name="DISCODE_DCL_DIR" default="$(env DISCODE_DCL_DIR)"/>
 
